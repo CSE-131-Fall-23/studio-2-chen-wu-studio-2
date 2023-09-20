@@ -22,21 +22,20 @@ public class Ruin {
 		
 		int num2 =0;
 		int num3 =0;
-		
-		double chance = Math.random();
+		int start = startAmount;
 		int num = 0;
 		for (int i = totalSimulations;  i > 0; i --) {
+			startAmount = start;
+			num = 0;
 			while ((startAmount > 0) && (startAmount != winLimit)) { 
-			
+				double chance = Math.random();
 				if (chance <= winChance) { 
-					startAmount ++;
+					startAmount++;
 					num ++;
-					System.out.println(startAmount);
 				}
 				else {
 					startAmount --;
 					num ++;
-					System.out.println(startAmount);
 				
 				}
 				
@@ -45,29 +44,32 @@ public class Ruin {
 			num2++;
 			
 			if (startAmount == 0) {
-				System.out.println("Simulation" + num2 + ": "+ num + "LOSE" );
+				System.out.println("Simulation " + num2 + ": "+ num + " LOSE" );
 				num3 ++;
 			}
 			
 			if (startAmount == winLimit) {
-				System.out.println("Simulation" + num2 + ": "+ num + "WIN" );
+				System.out.println("Simulation " + num2 + ": "+ num + " WIN" );
 			}
 			
 		}
 		
 		System.out.println("Losses: " + num3 + " Simulation: " + totalSimulations);
+		double ruinRate = (double) num3/ (double) totalSimulations;
 		
 		double a = ((1-winChance) / winChance);
-		double expectedRuinRate = 0;
-		
+		System.out.println(a);
+		double expectedRuinRate = 1 ;
+		startAmount = start;
 		if (winChance == 0.5) {
-			expectedRuinRate = 1 - (startAmount / winLimit);
+			expectedRuinRate = 1.0 - ((double)startAmount / (double)winLimit);
+			System.out.println("Ruin Rate from Simulations: " + ruinRate + " Expected Ruin Rate: " + expectedRuinRate);
 		}
 		else {
-			expectedRuinRate = (Math.pow(a, startAmount) - Math.pow(a, winLimit)) / (1 - Math.pow(a, winLimit));
+			expectedRuinRate = (Math.pow(a, (double)startAmount) - Math.pow(a, (double)winLimit)) / (1.0 - Math.pow(a, (double)winLimit));
+			System.out.println("Ruin Rate from Simulations: " + ruinRate + " Expected Ruin Rate: " + expectedRuinRate);
 		}
 		
-		System.out.println("Ruin Rate from Simulations: " + num3/totalSimulations + "Expected Ruin Rate: " + expectedRuinRate);
 		
 	}
 
